@@ -22,6 +22,12 @@ class Cu < Formula
 
   test do
     assert_equal "cu 0.2.0", shell_output("#{bin}/cu --version").strip
-    assert_match "observe", shell_output("#{bin}/cu help")
+
+    (testpath/"pixel.svg").write <<~SVG
+      <svg xmlns="http://www.w3.org/2000/svg" width="2" height="2">
+        <rect width="2" height="2" fill="#3366ff"/>
+      </svg>
+    SVG
+    assert_match(/\A[0-9a-f]{16}\z/, shell_output("#{bin}/cu-native fingerprint #{testpath}/pixel.svg").strip)
   end
 end
