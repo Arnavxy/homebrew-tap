@@ -1,8 +1,8 @@
 class Cu < Formula
   desc "Token-aware computer-use runtime for macOS agents"
   homepage "https://github.com/Arnavxy/cu"
-  url "https://github.com/Arnavxy/cu/archive/refs/tags/v0.3.5.tar.gz"
-  sha256 "674c2762fa1f13411196663794adbebb7024de46d293fbec72fdef49639d1ec7"
+  url "https://github.com/Arnavxy/cu/archive/refs/tags/v0.3.6.tar.gz"
+  sha256 "64906ff4777fdf16851d537c885a673df9d4f399fcf3a4ee7865a569afc66cbf"
   license "MIT"
 
   depends_on "cliclick"
@@ -21,7 +21,7 @@ class Cu < Formula
   end
 
   test do
-    assert_equal "cu 0.3.5", shell_output("#{bin}/cu --version").strip
+    assert_equal "cu 0.3.6", shell_output("#{bin}/cu --version").strip
 
     (testpath/"pixel.svg").write <<~SVG
       <svg xmlns="http://www.w3.org/2000/svg" width="2" height="2">
