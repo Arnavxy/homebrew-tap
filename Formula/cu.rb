@@ -5,11 +5,6 @@ class Cu < Formula
   sha256 "dc5c0113bf1b307851ac946bd0a8976c3796e903e73cf6416db42b84364653bb"
   license "MIT"
 
-  bottle do
-    root_url ""
-    sha256 cellar: :any_skip_relocation, arm64_golden_gate: "a21acea483f865160b38be0d694f1f77f728cbac628f4c65484b6a2a8228f698"
-  end
-
   depends_on "cliclick"
   depends_on macos: :ventura
 
