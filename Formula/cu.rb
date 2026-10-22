@@ -26,7 +26,8 @@ class Cu < Formula
     assert_equal "cu 0.5.0", shell_output("#{bin}/cu --version").strip
     assert_match "0.5.0", shell_output("#{bin}/cu-input -V")
     request = %({"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}\n)
-    assert_match %({"version":"0.5.0"}), pipe_output("#{bin}/cu-mcp", request)
+    response = JSON.parse(pipe_output("#{bin}/cu-mcp", request))
+    assert_equal "0.5.0", response.fetch("result").fetch("serverInfo").fetch("version")
 
     (testpath/"pixel.svg").write <<~SVG
       <svg xmlns="http://www.w3.org/2000/svg" width="2" height="2">
