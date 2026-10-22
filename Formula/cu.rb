@@ -1,27 +1,32 @@
 class Cu < Formula
-  desc "Token-aware computer-use runtime for macOS agents"
+  desc "Token-aware native macOS computer-use runtime for agents"
   homepage "https://github.com/Arnavxy/cu"
-  url "https://github.com/Arnavxy/cu/archive/refs/tags/v0.4.1.tar.gz"
-  sha256 "f13d1dcaa26570fb2a89b12c602a587dfd9bda185006f65cc2ec57d57d5f26c5"
   license "MIT"
+  version "0.5.0"
 
-  depends_on "cliclick"
+  on_macos do
+    on_arm do
+      url "https://github.com/Arnavxy/cu/releases/download/v0.5.0/cu-0.5.0-aarch64-apple-darwin.tar.gz"
+      sha256 "8650bf446ab96fd5cb7cea23461115f99fb678363d2a7b9f1c2a62582168c78f"
+    end
+    on_intel do
+      url "https://github.com/Arnavxy/cu/releases/download/v0.5.0/cu-0.5.0-x86_64-apple-darwin.tar.gz"
+      sha256 "d3e2d46fed06a945543c2599e3cc3b8def30bc9141bdcd78e1738b0a265dad0c"
+    end
+  end
+
   depends_on macos: :ventura
 
   def install
-    system "xcrun", "swiftc", "-O",
-           "-framework", "AppKit",
-           "-framework", "CoreGraphics",
-           "-framework", "Vision",
-           "Sources/cu-native/main.swift",
-           "-o", "cu-native"
-
-    bin.install "bin/cu"
-    bin.install "cu-native"
+    bin.install "bin/cu", "bin/cu-native", "bin/cu-input", "bin/cu-mcp"
+    doc.install "docs"
   end
 
   test do
-    assert_equal "cu 0.4.1", shell_output("#{bin}/cu --version").strip
+    assert_equal "cu 0.5.0", shell_output("#{bin}/cu --version").strip
+    assert_match "0.5.0", shell_output("#{bin}/cu-input -V")
+    request = %({"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}\n)
+    assert_match %({"version":"0.5.0"}), pipe_output("#{bin}/cu-mcp", request)
 
     (testpath/"pixel.svg").write <<~SVG
       <svg xmlns="http://www.w3.org/2000/svg" width="2" height="2">
